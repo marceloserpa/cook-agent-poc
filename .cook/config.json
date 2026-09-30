@@ -1,0 +1,12 @@
+{
+  "agent": "claude",
+  "sandbox": "agent",
+  "steps": {
+    "work":  { "agent": "claude", "model": "sonnet" },
+    "review": {"agent": "claude", "model": "sonnet" },
+    "gate": {"agent": "claude", "model": "sonnet" },
+    "iterate": {"agent": "claude", "model": "sonnet" },
+    "ralph": {"agent": "claude", "model": "sonnet" }
+  },
+  "env": ["ANTHROPIC_API_KEY"]
+}
