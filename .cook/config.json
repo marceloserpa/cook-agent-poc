@@ -1,6 +1,6 @@
 {
   "agent": "claude",
-  "sandbox": "agent",
+  "sandbox": "docker",
   "steps": {
     "work":  { "agent": "claude", "model": "sonnet" },
     "review": {"agent": "claude", "model": "sonnet" },

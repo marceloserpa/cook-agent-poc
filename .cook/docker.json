@@ -1,0 +1,6 @@
+{
+  "network": {
+    "mode": "restricted",
+    "allowedHosts": ["fonts.googleapis.com", "fonts.gstatic.com"]
+  }
+}
