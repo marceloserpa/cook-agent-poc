@@ -1,4 +1,4 @@
-# COOK.md
+# Todo List Application
 
 ## Project Instructions
 
