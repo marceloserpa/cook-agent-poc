@@ -1,21 +1,86 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const STORAGE_KEY = "todo-list-tasks";
 
 type Task = {
   text: string;
   done: boolean;
 };
 
+function parseTasks(value: string | null): Task[] {
+  if (value === null) {
+    return [];
+  }
+
+  try {
+    const saved: unknown = JSON.parse(value);
+    if (!Array.isArray(saved)) {
+      return [];
+    }
+
+    return saved.filter(
+      (item): item is Task =>
+        typeof item === "object" &&
+        item !== null &&
+        typeof item.text === "string" &&
+        typeof item.done === "boolean",
+    );
+  } catch {
+    return [];
+  }
+}
+
 export default function Home() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    let savedTasks: Task[] = [];
+    try {
+      savedTasks = parseTasks(window.localStorage.getItem(STORAGE_KEY));
+    } catch {
+      savedTasks = [];
+    }
+
+    queueMicrotask(() => {
+      setTasks(savedTasks);
+      setIsReady(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!isReady) {
+      return;
+    }
+
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    } catch {
+      // Storage may be unavailable or full; the in-memory todo list still works.
+    }
+  }, [isReady, tasks]);
+
+  useEffect(() => {
+    const syncTasks = (event: StorageEvent) => {
+      if (event.key !== STORAGE_KEY && event.key !== null) {
+        return;
+      }
+
+      setTasks(parseTasks(event.newValue));
+    };
+
+    window.addEventListener("storage", syncTasks);
+    return () => window.removeEventListener("storage", syncTasks);
+  }, []);
 
   const remaining = tasks.filter((t) => !t.done).length;
 
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
-    if (task.trim() !== "") {
+    if (isReady && task.trim() !== "") {
       setTasks((prevTasks) => [...prevTasks, { text: task.trim(), done: false }]);
       setTask("");
     }
@@ -35,7 +100,9 @@ export default function Home() {
             Todo List
           </h1>
           <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-            {tasks.length === 0
+            {!isReady
+              ? "Loading tasks..."
+              : tasks.length === 0
               ? "Nothing here yet — add your first task."
               : `${remaining} of ${tasks.length} task${tasks.length === 1 ? "" : "s"} remaining`}
           </p>
@@ -51,14 +118,14 @@ export default function Home() {
           />
           <button
             type="submit"
-            disabled={task.trim() === ""}
-            className="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-blue-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={!isReady || task.trim() === ""}
+            className="rounded-lg bg-green-600 px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-green-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
           >
             Add
           </button>
         </form>
 
-        {tasks.length > 0 && (
+        {isReady && tasks.length > 0 && (
           <ul className="mt-6 divide-y divide-zinc-100 overflow-hidden rounded-lg border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
             {tasks.map((t, index) => (
               <li key={index}>

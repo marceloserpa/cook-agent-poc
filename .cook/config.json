@@ -2,11 +2,11 @@
   "agent": "claude",
   "sandbox": "docker",
   "steps": {
-    "work":  { "agent": "codex", "model": "gpt-6-luna" },
-    "review": {"agent": "claude", "model": "sonnet" },
-    "gate": {"agent": "claude", "model": "sonnet" },
+    "work":    {"agent": "codex", "model": "gpt-6-luna" },
+    "review":  {"agent": "claude", "model": "sonnet" },
+    "gate":    {"agent": "claude", "model": "sonnet" },
     "iterate": {"agent": "claude", "model": "sonnet" },
-    "ralph": {"agent": "claude", "model": "sonnet" }
+    "ralph":   {"agent": "claude", "model": "sonnet" }
   },
   "env": ["ANTHROPIC_API_KEY", "OPENAI_API_KEY"]
 }

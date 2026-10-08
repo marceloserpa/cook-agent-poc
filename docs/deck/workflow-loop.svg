@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">Cook workflow and review loop</title>
+  <desc id="desc">Cook parses a command into a workflow, routes configured steps to coding-agent CLIs, and repeats work, review, and gate steps until the gate returns DONE or the iteration limit is reached.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#80f0c1"/></marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#8db7ff"/></marker>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#172736"/><stop offset="1" stop-color="#101923"/></linearGradient>
+  </defs>
+  <rect width="1200" height="640" rx="24" fill="#0b1018"/>
+  <g font-family="Inter, system-ui, sans-serif" fill="#edf4f7">
+    <text x="52" y="58" fill="#80f0c1" font-family="ui-monospace, monospace" font-size="16" letter-spacing="3">COMMAND → ROUTED AGENT STEPS → DECISION</text>
+    <g stroke="#314351" stroke-width="2" fill="url(#panel)">
+      <rect x="52" y="92" width="220" height="94" rx="16"/><rect x="340" y="92" width="220" height="94" rx="16"/>
+      <rect x="628" y="92" width="220" height="94" rx="16"/><rect x="916" y="92" width="232" height="94" rx="16"/>
+    </g>
+    <g font-size="20" font-weight="650">
+      <text x="162" y="132" text-anchor="middle">CLI command</text><text x="450" y="132" text-anchor="middle">Workflow parser</text>
+      <text x="738" y="132" text-anchor="middle">Executor + runner</text><text x="1032" y="132" text-anchor="middle">Agent CLI</text>
+    </g>
+    <g font-size="14" fill="#a9bbc5" text-anchor="middle">
+      <text x="162" y="160">task · operators · criteria</text><text x="450" y="160">work · review · gate · vN</text>
+      <text x="738" y="160">routes agent, model, sandbox</text><text x="1032" y="160">Claude · Codex · OpenCode</text>
+    </g>
+    <g fill="none" stroke="#80f0c1" stroke-width="3" marker-end="url(#arrow)">
+      <path d="M272 139H329"/><path d="M560 139H617"/><path d="M848 139H905"/>
+      <path d="M738 186V240H220V302"/>
+    </g>
+    <text x="52" y="270" fill="#80f0c1" font-family="ui-monospace, monospace" font-size="16" letter-spacing="3">REVIEW LOOP · BOUNDED ITERATIONS</text>
+    <g stroke-width="2">
+      <rect x="74" y="310" width="220" height="112" rx="16" fill="#132a2b" stroke="#3b7662"/>
+      <rect x="412" y="310" width="220" height="112" rx="16" fill="#302719" stroke="#80633b"/>
+      <rect x="750" y="310" width="220" height="112" rx="16" fill="#17263a" stroke="#466488"/>
+      <rect x="1012" y="310" width="142" height="112" rx="16" fill="#132a2b" stroke="#3b7662"/>
+    </g>
+    <g font-family="ui-monospace, monospace" font-size="16" font-weight="700" text-anchor="middle">
+      <text x="184" y="350" fill="#80f0c1">WORK / ITERATE</text><text x="522" y="350" fill="#ffca79">REVIEW</text>
+      <text x="860" y="350" fill="#8db7ff">GATE</text><text x="1083" y="350" fill="#80f0c1">RESULT</text>
+    </g>
+    <g font-size="14" fill="#c5d1d8" text-anchor="middle">
+      <text x="184" y="381">implement or revise</text><text x="522" y="381">inspect result</text>
+      <text x="860" y="381">DONE or ITERATE</text><text x="1083" y="381">DONE</text>
+    </g>
+    <g fill="none" stroke="#80f0c1" stroke-width="3" marker-end="url(#arrow)">
+      <path d="M294 366H401"/><path d="M632 366H739"/><path d="M970 366H1001"/>
+      <path d="M860 422V508H184V434"/>
+    </g>
+    <text x="584" y="496" fill="#80f0c1" font-family="ui-monospace, monospace" font-size="14" text-anchor="middle">ITERATE → next work pass · stop at configured maximum</text>
+    <path d="M860 422V566H1080V434" fill="none" stroke="#8db7ff" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#arrowBlue)"/>
+    <text x="967" y="553" fill="#9dbfff" font-family="ui-monospace, monospace" font-size="13" text-anchor="middle">DONE → return</text>
+    <rect x="74" y="574" width="780" height="40" rx="10" fill="#111a26" stroke="#293744"/>
+    <text x="94" y="599" fill="#a9bbc5" font-size="14">Rate limit: wait → retry the current agent call (separate from ITERATE)</text>
+  </g>
+</svg>
